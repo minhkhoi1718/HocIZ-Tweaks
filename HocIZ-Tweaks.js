@@ -1,5 +1,6 @@
 // ==UserScript==
 // @name         HocIZ-Tweaks
+// @namespace    http://tampermonkey.net/
 // @version      1.0
 // @description  Tweaks for hociz.vn
 // @author       Triangle
@@ -23,10 +24,9 @@ function waitForElem(selector, disappear = false) {
         const observer = new MutationObserver((mutations) => {
             const exist = document.querySelector(selector) ? true : false;
             if (
-                (disappear & appeared) ^
-                (exist & !(disappear & !appeared & exist))
+                ((disappear & appeared) ^ exist) &
+                !(disappear & !appeared & exist)
             ) {
-                // Goofy ass logic
                 observer.disconnect();
                 resolve(document.querySelector(selector));
             }
@@ -58,10 +58,9 @@ function addYtButton() {
             ".plyr.plyr--full-ui.plyr--video.plyr--youtube.plyr--fullscreen-enabled.plyr__poster-enabled.plyr--paused.plyr--stopped",
         );
         const elem = plyr.parentElement;
-
-        elem.innerHTML =
-            elem.innerHTML +
-            `<div class="youtube-link text-primary-500" style="padding:10px">
+        const link = document.createElement("div");
+        link.innerHTML = `
+            <div class="youtube-link text-primary-500" style="padding:10px; float:down">
                 <a href=${url} target="_blank" style="display:flex; align-items:center; gap:10px">
                     <img src="https://www.google.com/s2/favicons?sz=64&domain=youtube.com" style="width:32px; height:32px; float:left">
                     <b style="float:left">
@@ -69,6 +68,8 @@ function addYtButton() {
                     </b>
                 </a>
             </div>`;
+
+        elem.appendChild(link);
 
         print("Adding Youtube button");
     }
