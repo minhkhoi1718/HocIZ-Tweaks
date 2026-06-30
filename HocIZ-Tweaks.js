@@ -1,6 +1,5 @@
 // ==UserScript==
 // @name         HocIZ-Tweaks
-// @namespace    http://tampermonkey.net/
 // @version      1.0
 // @description  Tweaks for hociz.vn
 // @author       Triangle
