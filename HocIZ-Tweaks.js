@@ -61,7 +61,7 @@ function addYtButton() {
         const link = document.createElement("div");
         link.innerHTML = `
             <div class="youtube-link text-primary-500" style="padding:10px; float:down">
-                <a href=${url} target="_blank" style="display:flex; align-items:center; gap:10px">
+                <a href=${url} target="_blank" style="display:flex; align-items:center; gap:10px; float:left">
                     <img src="https://www.google.com/s2/favicons?sz=64&domain=youtube.com" style="width:32px; height:32px; float:left">
                     <b style="float:left">
                         Xem trên Youtube
