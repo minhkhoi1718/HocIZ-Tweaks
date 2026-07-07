@@ -23,10 +23,7 @@ function waitForElem(selector, disappear = false) {
 
         const observer = new MutationObserver((mutations) => {
             const exist = document.querySelector(selector) ? true : false;
-            if (
-                ((disappear & appeared) ^ exist) &
-                !(disappear & !appeared & exist)
-            ) {
+            if (exist ? (!disappear) : (disappear & appeared)) {
                 observer.disconnect();
                 resolve(document.querySelector(selector));
             }
