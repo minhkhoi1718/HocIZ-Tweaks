@@ -38,24 +38,27 @@ function waitForElem(selector, disappear = false) {
 }
 
 async function getYtURL() {
-    const elem = await waitForElem(
-        ".plyr__video-wrapper.plyr__video-embed iframe",
-    );
+    const elem = await waitForElem(".plyr__video-wrapper iframe");
+    if (!elem) return "";
     const url = elem.src.replace(/\?.*/, "").replace(/embed\//, "watch?v=");
 
-    print(`Extracting Youtube (${url})`);
+    print(`Extracting Youtube URL: ${url}`);
     return url;
 }
 
 function addYtButton() {
     async function add() {
         if (document.querySelector(".youtube-link")) return;
+
+        const plyr = await waitForElem(".w-full .plyr");
+        if (!plyr) {add(); return;}
+
         const url = await getYtURL();
-        const plyr = await waitForElem(
-            ".plyr.plyr--full-ui.plyr--video.plyr--youtube.plyr--fullscreen-enabled.plyr__poster-enabled.plyr--paused.plyr--stopped",
-        );
         const elem = plyr.parentElement;
+        if (!elem) {add(); return;}
+
         const link = document.createElement("div");
+
         link.innerHTML = `
             <div class="youtube-link text-primary-500" style="padding:10px; float:down">
                 <a href=${url} target="_blank" style="display:flex; align-items:center; gap:10px; float:left">
@@ -68,7 +71,7 @@ function addYtButton() {
 
         elem.appendChild(link);
 
-        print("Adding Youtube button");
+        print("Sucessfully added Youtube button");
     }
 
     add();
